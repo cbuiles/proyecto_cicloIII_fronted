@@ -32,7 +32,7 @@ export default {
   methods: {
     putIngresos() {
       axios
-        .put("http://127.0.0.1:8000/user/ingresos/", {
+        .put("https://desafio6-frontend.herokuapp.com/user/ingresos/", {
           tipo: this.seleccionado,
           valor: parseInt(this.valor),
           constante: true,

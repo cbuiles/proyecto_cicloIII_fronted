@@ -20,7 +20,7 @@ export default {
         this.tipo = this.$route.params.tipo
         let self = this
 
-        axios.get("http://127.0.0.1:8000/user/ingresos/" + this.tipo)
+        axios.get("https://desafio6-frontend.herokuapp.com/user/ingresos/" + this.tipo)
         .then((result) => {
             self.valor = result.data.valor
             })
