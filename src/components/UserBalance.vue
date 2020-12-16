@@ -2,7 +2,7 @@
   <div id="UserBalance">
     <h2></h2>
     <h2>
-      Tu saldo es: <span> {{ balance }} COP </span>
+      Tu saldo es: <span> {{ valor }} COP </span>
     </h2>
   </div>
 </template>
@@ -13,10 +13,22 @@ export default {
   name: "UserBalance",
   data: function () {
     return {
-      balance: 0,
+      valor: 0,
     };
   },
-};
+  created: function(){
+        this.tipo = this.$route.params.tipo
+        let self = this
+
+        axios.get("http://127.0.0.1:8000/user/ingresos/" + this.tipo)
+        .then((result) => {
+            self.valor = result.data.valor
+            })
+            .catch((error) => {
+            alert("ERROR Servidor");
+            });
+  }         
+}
 </script>
 
 <style>
