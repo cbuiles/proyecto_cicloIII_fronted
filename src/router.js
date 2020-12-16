@@ -9,11 +9,6 @@ const router = new vueRouter({
   routes: [
     {
       path: '/',
-      name: "root",
-      component: App
-    },
-    {
-      path: '/user/ingresos',
       name: "user",
       component: User
     },

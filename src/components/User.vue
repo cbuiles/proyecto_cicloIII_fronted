@@ -1,21 +1,34 @@
 <template>
   <div id="User">
-    <form method="post">
-      <label for="ingreso" id="enunciado">Ingreso:</label>
-      <input type="text" name="valor" v-model="valor" />
-      <label for="tipo" id="enunciado">Tipo de ingreso:</label>
+    <div>
+      <form method="post">
+        <label for="ingreso" id="enunciado">Ingreso:</label>
+        <input type="text" name="valor" v-model="valor" />
+        <label for="tipo" id="enunciado">Tipo de ingreso:</label>
 
-      <div id="seleccion-ingreso" class="select">
-        <select name="ingreso" id="ingreso" v-model="seleccionado">
-          <option value="" disabled>Seleccione un ingreso</option>
-          <option value="salario" selected>Salario</option>
-          <option value="ocasional">Ocasional</option>
-          <option value="inversion">Inversión</option>
-        </select>
+        <div id="seleccion-ingreso" class="select">
+          <select name="ingreso" id="ingreso" v-model="seleccionado">
+            <option value="" disabled>Seleccione un ingreso</option>
+            <option value="salario" selected>Salario</option>
+            <option value="ocasional">Ocasional</option>
+            <option value="inversion">Inversión</option>
+          </select>
+        </div>
+
+        <input type="button" value="Enviar" @click="putIngresos" id="enviar" />
+        <input
+          type="button"
+          value="Ver Ingresos"
+          @click="showIngresos"
+          id="enviar"
+        />
+      </form>
+
+      <div id="mostrar-ingresos" v-if="mostrarIngresos">
+        <h2>Tus Ingresos:</h2>
+        <h3>10000 COP</h3>
       </div>
-
-      <input type="button" value="Enviar" @click="putIngresos" />
-    </form>
+    </div>
   </div>
 </template>
 
@@ -27,6 +40,7 @@ export default {
     return {
       seleccionado: "",
       valor: "",
+      mostrarIngresos: false,
     };
   },
   methods: {
@@ -40,16 +54,33 @@ export default {
         .then((res) => console.log(res))
         .catch((error) => console.error(error));
     },
+    showIngresos() {
+      this.mostrarIngresos = true;
+    },
   },
 };
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,300&display=swap");
+
 #User {
+  background: #000000; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #434343,
+    #000000
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #434343,
+    #000000
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   font-family: sans-serif;
 }
@@ -62,10 +93,11 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 350px;
+  width: 350px;
+  height: 450px;
   background-color: #1947e5;
   color: #e5e7e9;
+  font-family: "Ubuntu", sans-serif;
 }
 
 input[type="text"] {
@@ -120,7 +152,7 @@ select {
   filter: drop-shadow(0px 5px 0px #18191f);
 }
 
-input[type="button"] {
+#enviar {
   margin-top: 20px;
   width: 200px;
   background-color: #18191f;
@@ -131,9 +163,26 @@ input[type="button"] {
   font-size: 21px;
   font-weight: 800;
 }
+
+#enviar:hover {
+  background-color: #434343;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
 #enunciado {
   font-size: 1.2rem;
   font-weight: bold;
   margin: 10px 0 20px 0;
+}
+#mostrar-ingresos {
+  margin-top: 15px;
+  width: 350px;
+  height: 100px;
+  background-color: white;
+  border-radius: 16px;
+  border: 2px solid black;
+  text-align: center;
+  text-justify: auto;
 }
 </style>
