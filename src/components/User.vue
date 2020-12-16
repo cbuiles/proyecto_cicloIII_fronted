@@ -1,6 +1,6 @@
 <template>
   <div id="User">
-    <form @submit.prevent="putIngresos" method="post">
+    <form method="post">
       <label for="ingreso" id="enunciado">Ingreso:</label>
       <input type="text" name="valor" v-model="valor" />
       <label for="tipo" id="enunciado">Tipo de ingreso:</label>
@@ -14,7 +14,7 @@
         </select>
       </div>
 
-      <input type="submit" />
+      <input type="button" value="Enviar" @click="putIngresos" />
     </form>
   </div>
 </template>
@@ -32,17 +32,14 @@ export default {
   methods: {
     putIngresos() {
       axios
-        .post("http://127.0.0.1:8000/user/ingresos/" + this.seleccionado, {
+        .put("http://127.0.0.1:8000/user/ingresos/", {
           tipo: this.seleccionado,
-          valor: this.valor,
+          valor: parseInt(this.valor),
           constante: true,
         })
         .then((res) => console.log(res))
-        .then((error) => console.error(error));
+        .catch((error) => console.error(error));
     },
-  },
-  created: function () {
-    this.username = "Camilo";
   },
 };
 </script>
@@ -83,7 +80,7 @@ input[type="text"] {
   height: 30px;
 }
 
-input[type="submit"] {
+input[type="button"] {
   cursor: pointer;
   margin-top: 30px;
   display: block;
