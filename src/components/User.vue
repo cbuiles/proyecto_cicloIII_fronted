@@ -15,19 +15,14 @@
           </select>
         </div>
 
-        <input type="button" value="Enviar" @click="putIngresos" id="enviar" />
+        <input type="button" value="Enviar" @click="putIngresos" id="botones" />
         <input
           type="button"
           value="Ver Ingresos"
           @click="showIngresos"
-          id="enviar"
+          id="botones"
         />
       </form>
-
-      <div id="mostrar-ingresos" v-if="mostrarIngresos">
-        <h2>Tus Ingresos:</h2>
-        <h3>10000 COP</h3>
-      </div>
     </div>
   </div>
 </template>
@@ -40,7 +35,6 @@ export default {
     return {
       seleccionado: "",
       valor: "",
-      mostrarIngresos: false,
     };
   },
   methods: {
@@ -55,7 +49,7 @@ export default {
         .catch((error) => console.error(error));
     },
     showIngresos() {
-      this.mostrarIngresos = true;
+      this.$router.push({ name: "user_balance" });
     },
   },
 };
@@ -152,7 +146,7 @@ select {
   filter: drop-shadow(0px 5px 0px #18191f);
 }
 
-#enviar {
+#botones {
   margin-top: 20px;
   width: 200px;
   background-color: #18191f;
@@ -164,7 +158,7 @@ select {
   font-weight: 800;
 }
 
-#enviar:hover {
+#botones:hover {
   background-color: #434343;
   border: 1px solid black;
   cursor: pointer;

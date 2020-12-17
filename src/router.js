@@ -13,7 +13,7 @@ const router = new vueRouter({
       component: User
     },
     {
-      path: '/user/ingresos/:id',
+      path: '/ingresos/',
       name: "user_balance",
       component: UserBalance
     },
