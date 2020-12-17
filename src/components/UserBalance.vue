@@ -2,7 +2,7 @@
   <div id="UserBalance">
     <div id="container">
       <h2>Tu saldo es:</h2>
-      <p>
+      <p :class="{ hide: isActive }">
         <span> {{ balance }} COP </span>
       </p>
       <div id="seleccion-ingreso" class="select" @change="mostrarIngreso">
@@ -26,17 +26,16 @@ export default {
     return {
       balance: 0,
       seleccionado: "",
+      isActive: true,
     };
-  },
-  created: function () {
-    axios
-      .get("http://127.0.0.1:8000/user/ingresos/salario")
-      .then((res) => (this.balance = res.data.valor))
-      .catch((error) => console.error(error));
   },
   methods: {
     mostrarIngreso() {
-      console.log(this.seleccionado);
+      this.isActive = false;
+      axios
+        .get(`http://127.0.0.1:8000/user/ingresos/${this.seleccionado}`)
+        .then((res) => (this.balance = res.data.valor))
+        .catch((error) => console.error(error));
     },
   },
 };
@@ -64,6 +63,7 @@ export default {
     #000000
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
 #container {
   width: 400px;
   height: 400px;
@@ -83,7 +83,7 @@ export default {
 span {
   color: crimson;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 30px;
   background-image: url(../assets/save_money.svg);
 }
 img {
@@ -121,5 +121,11 @@ select {
   background-position: right 1.5em top 50%, 0 0;
   background-size: 0.65em auto, 100%;
   filter: drop-shadow(0px 5px 0px #18191f);
+}
+select:focus {
+  outline: none;
+}
+.hide {
+  opacity: 0;
 }
 </style>

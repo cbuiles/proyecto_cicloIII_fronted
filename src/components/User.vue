@@ -100,6 +100,12 @@ input[type="text"] {
 
   -webkit-appearance: none;
 }
+input[name="valor"] {
+  text-align: center;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+}
 
 input[type="text"] {
   width: 150px;
@@ -125,6 +131,9 @@ select {
   font-size: inherit;
   cursor: inherit;
   line-height: inherit;
+}
+select:focus {
+  outline: none;
 }
 
 .select {
