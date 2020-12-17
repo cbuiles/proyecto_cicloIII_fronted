@@ -107,6 +107,10 @@ input[name="valor"] {
   font-weight: bold;
 }
 
+input[name="valor"]:focus {
+  outline: none;
+}
+
 input[type="text"] {
   width: 150px;
   height: 20px;
@@ -136,13 +140,14 @@ select:focus {
   outline: none;
 }
 
-.select {
+#User .select {
   width: 150px;
   height: 20px;
   border-radius: 16px;
   padding: 1rem 1.5rem;
   border: 1px solid #000;
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: bold;
   line-height: 28px;
   color: #000;
   cursor: pointer;
@@ -171,6 +176,11 @@ select:focus {
   background-color: #434343;
   border: 1px solid black;
   cursor: pointer;
+}
+
+#botones:active,
+#botones:focus {
+  outline: none;
 }
 
 #enunciado {

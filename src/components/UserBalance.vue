@@ -79,6 +79,8 @@ export default {
 #UserBalance h2 {
   font-size: 50px;
   color: #283747;
+  padding: 0;
+  margin: 30px 0 0 0;
 }
 span {
   color: crimson;

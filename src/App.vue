@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div class="header">
-      <h1>Name APP</h1>
+      <h1>SmartSpend APP</h1>
       <nav>
-        <button @click="init" v-if="is_auth">Inicio</button>
-        <button v-if="is_auth">Ingresos</button>
+        <button @click="init">Inicio</button>
+        <button @click="ingresos">Ingresos</button>
       </nav>
     </div>
 
@@ -19,18 +19,15 @@ export default {
   name: "App",
   components: {},
   data: function () {
-    return {
-      is_auth: localStorage.getItem("isAuth") || false,
-    };
+    return {};
   },
   methods: {
     init: function () {
-      is_auth = true;
+      this.$router.push({ name: "user" });
     },
-  },
-  beforeCreate: function () {
-    localStorage.setItem("current_username", "camilo24");
-    localStorage.setItem("isAuth", true);
+    ingresos: function () {
+      this.$router.push({ name: "user_balance" });
+    },
   },
 };
 </script>
