@@ -1,42 +1,48 @@
 <template>
   <div id="User">
-    
+       
       <form method="post">
-        <label for="ingreso" id="enunciado">Ingreso:</label>
+        <label for="ingreso" id="enunciado">Egreso:</label>
         <input type="text" name="valor" v-model="valor" />
-        <label for="tipo" id="enunciado">Tipo de ingreso:</label>
+        <label for="tipo" id="enunciado">Tipo de egreso:</label>
 
         <div id="seleccion-ingreso" class="select">
           <select name="ingreso" id="ingreso" v-model="seleccionado">
-            <option value="" disabled>Seleccione un ingreso</option>
-            <option value="salario" selected>Salario</option>
-            <option value="ocasional">Ocasional</option>
-            <option value="inversion">Inversión</option>
+            <option value="" disabled>Seleccione un egreso</option>
+            <option value="arriendo" selected>Arriendo</option>
+            <option value="transporte">Transporte</option>
+            <option value="ocio">Ocio</option>
           </select>
         </div>
 
-        <input type="button" value="Enviar" @click="putIngresos" id="botones" />
+        <input type="date" value="fecha" v-model="dia">
+
+        <input type="button" value="Enviar" @click="putEgresos" class="botones" />
+        <input
+          type="button"
+          value="Ver Egresos"
+          @click="showEgresos"
+          class="botones"
+        />
       </form>
-      <section v-if="mostrar === false" id="">
+      <section v-if="mostrar === false">
         <div id="UserBalance">
-    <div id="container">
-      <h2>Tus Ingresos son:</h2>
-      <p :class="{ hide: isActive }">
-        <span> {{ ingreso }} COP </span>
-      </p>
-      <div id="seleccion-ingreso" class="select">
-        <select name="ingreso" id="ingreso" v-model="seleccionado" @change="mostrarIngreso">
-          <option value="" disabled>Seleccione un egreso</option>
-          <option value="salario" selected>Salario</option>
-          <option value="ocasional">Ocasional</option>
-          <option value="inversion">Inversión</option>
-        </select>
-      </div>
-      <img src="../assets/save_money.svg" alt="" />
-    </div>
-  </div>
+          <div id="container">
+            <h2>Tus egresos son:</h2>
+           
+            <ul>
+                <li v-for="(gasto, index) in egresos">
+                 <p> <span>VALOR:</span> {{ gasto.valor }} COP   <span>FECHA:</span> {{ gasto.fecha }}</p>
+                </li>
+              </ul>
+              <p id="total-titulo">TOTAL:</p>
+              <p id="total"> {{ total }} COP</p>
+          </div>
+        </div>
+       
       </section>
-  <img v-if="mostrar" src="../assets/ingresos.svg" alt="" id="img-egresos">
+        <img v-if="mostrar" src="../assets/ingresos.svg" alt="" id="img-egresos">
+    
   </div>
 </template>
 
@@ -48,31 +54,52 @@ export default {
     return {
       seleccionado: "",
       valor: "",
-      ingreso: 0,
-      mostrar: false,
-      isActive: true
+      dia: "",
+      mostrar:true,
+      egreso: 0,
+      egresos:[],
+      total: 0
     };
   },
+  computed:{
+    fecha: function() {
+      let fechas = new Date( Date.now()),
+        dia = fechas.getDate(),
+        agno = fechas.getFullYear(),
+        mes = fechas.getMonth() + 1;
+      return `${agno}-${mes}-${dia}`
+    }
+  },
   methods: {
-    putIngresos() {
+    putEgresos() {
       axios
-        .put("http://127.0.0.1:8000/user/ingresos/", {
+        .put("http://127.0.0.1:8000/user/egresos/", {
           tipo: this.seleccionado,
           valor: parseInt(this.valor),
-          constante: true,
+          fecha: this.dia,
         })
-        .then((res) => console.log(res.data))
+        .then((res) => console.log(res))
         .catch((error) => console.error(error));
     },
-    mostrarIngreso() {
-      this.isActive = false;
+    showEgresos() {
+      this.total = 0
+      this.mostrar = false
       axios
-        .get(`http://127.0.0.1:8000/user/ingresos/${this.seleccionado}`)
-        .then((res) => (this.ingreso = res.data.valor))
+        .get(`http://127.0.0.1:8000/user/egresos/${this.seleccionado}`)
+        .then((res) => {
+          this.egresos =Array.from(res.data)
+
+          this.egresos.forEach(el => {
+            this.total += el.valor
+          })
+          console.log(this.egreso)
+        })
         .catch((error) => console.error(error));
     },
-  },
-};
+    verFecha(){
+    }
+  }
+}
 </script>
 
 <style>
@@ -107,8 +134,8 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 350px;
-  height: 450px;
+  width: 400px;
+  height: 500px;
   background-color: #1947e5;
   color: #e5e7e9;
   font-family: "Ubuntu", sans-serif;
@@ -143,24 +170,42 @@ input[type="text"] {
   cursor: pointer;
 }
 
-select {
+select,
+input[type="date"] {
   /* Additional resets for further consistency */
   appearance: none;
   background-color: transparent;
   border: none;
   padding: 0 1em 0 0;
-  margin: 0;
   width: 100%;
   font-family: inherit;
   font-size: inherit;
   cursor: inherit;
   line-height: inherit;
 }
-select:focus {
+select:focus,
+input[type="date"] {
   outline: none;
 }
+input[type="date"] {
+  margin-top: 15px;
+width: 150px;
+  height: 20px;
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  border: 1px solid #000;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 28px;
+  color: #000;
+  cursor: pointer;
+  background-color: #fff;
+  filter: drop-shadow(0px 5px 0px #18191f);
+  text-align: center;
 
-#User .select {
+}
+
+#User .select{
   width: 150px;
   height: 20px;
   border-radius: 16px;
@@ -178,9 +223,10 @@ select:focus {
   background-position: right 1.5em top 50%, 0 0;
   background-size: 0.65em auto, 100%;
   filter: drop-shadow(0px 5px 0px #18191f);
+  text-align: center;
 }
 
-#botones {
+.botones {
   margin-top: 20px;
   width: 200px;
   background-color: #18191f;
@@ -218,6 +264,7 @@ select:focus {
   text-align: center;
   text-justify: auto;
 }
+
 #img-egresos{
   width: 500px;
   height: 500px;
@@ -226,14 +273,15 @@ select:focus {
 
 
 #container {
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 500px;
   background-color: aliceblue;
   border-radius: 16px;
   border: 2px solid white;
   text-align: center;
   font-family: "Ubuntu", sans-serif;
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
 }
@@ -246,7 +294,7 @@ select:focus {
 span {
   color: crimson;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 20px;
   background-image: url(../assets/save_money.svg);
 }
 div img {
@@ -255,6 +303,31 @@ div img {
 }
 
 .hide {
-  opacity: 0;
+  display: none;
+}
+li,
+ul {
+  width: 100%;
+  margin-top: 30px;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+li p{
+  font-size: 20px;
+  font-weight: bold;
+
+}
+#total{
+  font-size: 40px;
+  color: crimson;
+  font-weight: bold;
+  margin-top: 0;
+}
+#total-titulo{
+  font-size: 40px;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 0;
 }
 </style>

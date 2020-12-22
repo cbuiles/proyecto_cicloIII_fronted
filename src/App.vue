@@ -3,8 +3,8 @@
     <div class="header">
       <h1>SmartSpend APP</h1>
       <nav>
-        <button @click="init">Inicio</button>
-        <button @click="ingresos">Ingresos</button>
+        <button @click="init">Ingresos</button>
+        <button @click="egresos">Egresos</button>
       </nav>
     </div>
 
@@ -21,6 +21,9 @@ export default {
   data: function () {
     return {};
   },
+  computed:{
+
+  },
   methods: {
     init: function () {
       this.$router.push({ name: "user" });
@@ -28,6 +31,9 @@ export default {
     ingresos: function () {
       this.$router.push({ name: "user_balance" });
     },
+    egresos: function() {
+      this.$router.push({ name: "user_egresos" })
+    }
   },
 };
 </script>
@@ -63,6 +69,7 @@ body {
   width: 20%;
   text-align: center;
   font-family: "Ubuntu", sans-serif;
+  cursor: pointer;
 }
 .header nav {
   height: 100%;
@@ -86,7 +93,7 @@ body {
   border: 1px solid #e5e7e9;
 }
 .main-component {
-  height: 90vh;
+  height: 92vh;
   margin: 0%;
   padding: 0%;
   background: #fdfefe;
