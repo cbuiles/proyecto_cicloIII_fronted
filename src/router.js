@@ -1,6 +1,7 @@
 import vueRouter from 'vue-router'
 import User from './components/User'
 import UserBalance from './components/UserBalance'
+import Egresos from './components/Egresos'
 import App from './App'
 
 const router = new vueRouter({
@@ -17,6 +18,11 @@ const router = new vueRouter({
       name: "user_balance",
       component: UserBalance
     },
+    {
+      path: '/egresos/',
+      name: 'user_egresos',
+      component: Egresos
+    }
   ]
 })
 export default router
